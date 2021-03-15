@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
+        width: `calc(100% - ${drawerWidth + 16}px)`,
         marginLeft: drawerWidth,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.easeOut,
@@ -69,7 +69,8 @@ const useStyles = makeStyles((theme) => ({
         right: '16px',
         top: '8px',
         [theme.breakpoints.down('xs')]: {
-            top: '4px'
+            top: '4px',
+            right: '8px',
         }
     }
 }));
@@ -121,8 +122,8 @@ export function Navigation(props) {
                     </IconButton>
                 </div>
                 <List>
-                    <ListItemLink to="/" primary="Home" icon={<HomeIcon />} />
-                    <ListItemLink to="/admin" primary="Admin" icon={<SupervisorAccountIcon />} />
+                    <ListItemLink to="/" primary="Home" icon={<HomeIcon />} onClick={handleDrawerClose}/>
+                    <ListItemLink to="/admin" primary="Admin" icon={<SupervisorAccountIcon />} onClick={handleDrawerClose}/>
                 </List>
             </Drawer>
         </div>);
