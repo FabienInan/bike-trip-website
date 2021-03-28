@@ -1,14 +1,19 @@
-import { AppBar, Drawer, IconButton, List, Toolbar, Typography, makeStyles } from "@material-ui/core";
+import { AppBar, Button, Drawer, IconButton, List, Menu, MenuItem, Toolbar, Typography, makeStyles } from "@material-ui/core";
+import { getLocale, setLocale } from "../services/languageService";
+import { useEffect, useState } from "react";
 
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 import HomeIcon from '@material-ui/icons/Home';
 import { ListItemLink } from "../ui-utils/ListItemLink";
 import MenuIcon from '@material-ui/icons/Menu';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import bikeImage from '../assets/bike.png';
 import clsx from 'clsx';
+import { initReactI18next } from "react-i18next";
 import { theme } from "../ui-utils/theme";
+import { useTranslation } from "react-i18next";
 
 const drawerWidth = 120;
 
@@ -20,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     appBarShift: {
-        width: `calc(100% - ${drawerWidth + 16}px)`,
+        width: `calc(100% - ${drawerWidth + theme.spacing(2)}px)`,
         marginLeft: drawerWidth,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.easeOut,
@@ -34,7 +39,13 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     title: {
-        flexGrow: 1
+        width: '85%',
+        [theme.breakpoints.down('xs')]: {
+            width: '60%',
+        }
+    },
+    languageButton: {
+        margin: theme.spacing(2),
     },
     drawer: {
         width: drawerWidth,
@@ -47,31 +58,8 @@ const useStyles = makeStyles((theme) => ({
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
     },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: -drawerWidth,
-    },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-    },
     bikeIcon: {
-        position: 'absolute',
-        width: '48px',
-        right: '16px',
-        top: '8px',
-        [theme.breakpoints.down('xs')]: {
-            top: '4px',
-            right: '8px',
-        }
+        width: theme.spacing(6)
     }
 }));
 
@@ -81,13 +69,28 @@ export function Navigation(props) {
 
     const { open, setOpen } = props;
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
+    const { t, i18n } = useTranslation();
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+    const [anchorMenu, setAnchorMenu] = useState(null);
+
+    const handleClickLanguage = (event) => setAnchorMenu(event.currentTarget);
+
+    const handleCloseMenu = () => setAnchorMenu(null);
+
+    const handleDrawerOpen = () => setOpen(true);
+
+    const handleDrawerClose = () => setOpen(false);
+
+    const setLanguage = (language) => i18n.use(initReactI18next).init({lng: language});
+
+    useEffect(() => setLanguage(getLocale()), []);
+
+    const changeLanguage = (language) => {
+        setLanguage(language); 
+        setLocale(language);
+        handleCloseMenu();
+        window.location.reload(true);
+    }
 
     return (
         <div>
@@ -101,10 +104,22 @@ export function Navigation(props) {
                         onClick={handleDrawerOpen}>
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>
+                    <Typography className={classes.title} variant="h6">
                         A bike trip across Canada
-                        <img className={classes.bikeIcon} src={bikeImage} alt="bike logo"></img>
                     </Typography>
+                    <Button className={classes.languageButton} onClick={handleClickLanguage} variant="contained" color="primary">
+                        {t('french')}
+                    </Button>
+                    <Menu
+                        anchorEl={anchorMenu}
+                        keepMounted
+                        open={Boolean(anchorMenu)}
+                        onClose={handleCloseMenu}
+                    >
+                        <MenuItem onClick={() => {changeLanguage('fr')}}>{t('french')}</MenuItem>
+                        <MenuItem onClick={() => {changeLanguage('en')}}>{t('english')}</MenuItem>
+                    </Menu>
+                    <img className={classes.bikeIcon} src={bikeImage} alt="bike logo"></img>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -122,8 +137,9 @@ export function Navigation(props) {
                     </IconButton>
                 </div>
                 <List>
-                    <ListItemLink to="/" primary="Home" icon={<HomeIcon />} onClick={handleDrawerClose}/>
-                    <ListItemLink to="/admin" primary="Admin" icon={<SupervisorAccountIcon />} onClick={handleDrawerClose}/>
+                    <ListItemLink to="/" primary={t('home')} icon={<HomeIcon />} onClick={(handleDrawerClose)} />
+                    <ListItemLink to="/admin" primary={t('admin')} icon={<SupervisorAccountIcon />} onClick={handleDrawerClose} />
+                    <ListItemLink to="/gps" primary={t('gps')} icon={<GpsFixedIcon />} onClick={handleDrawerClose} />
                 </List>
             </Drawer>
         </div>);

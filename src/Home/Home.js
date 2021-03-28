@@ -5,19 +5,22 @@ import { deleteArticle, getArticles } from '../services/articlesService';
 import Alert from '@material-ui/lab/Alert';
 import { ArticleCard } from './ArticleCard/ArticleCard';
 import { DeleteConfirmationDialog } from './DeleteConfirmationDialog/DeleteConfirmationDialog';
+import { getIsAdmin } from '../services/loginService';
+import { theme } from '../ui-utils/theme';
 
 const useStyles = makeStyles(() => ({
   cardList: {
     display: 'flex',
     flexWrap: 'wrap',
   },
-  circularProgress: {
+  circularProgressContent: {
     display: 'flex',
-    margin: '64px auto',
+    justifyContent: 'center',
+    margin: theme.spacing(4)
   },
   emptyList: {
     textAlign: 'center',
-    margin: '32px',
+    margin: theme.spacing(4),
   }
 }));
 
@@ -25,12 +28,11 @@ export function Home() {
 
   const [isLoadingArticlesList, setIsLoadingArticlesList] = useState(false);
   const [articlesList, setArticlesList] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(getIsAdmin());
   const [deletingStatus, setDeletingStatus] = useState('');
 
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [articleId, setArticleId] = useState('');
-
 
   const classes = useStyles();
 
@@ -41,7 +43,9 @@ export function Home() {
   const getArticlesList = () => {
     setIsLoadingArticlesList(true);
     getArticles()
-      .then(response => setArticlesList(response))
+      .then(response => {
+        setArticlesList(response);
+      })
       .finally(() => setIsLoadingArticlesList(false));
   }
 
@@ -76,7 +80,10 @@ export function Home() {
         </Alert>
       </Snackbar>
       <DeleteConfirmationDialog openConfirmationDialog={openConfirmationDialog} setOpenConfirmationDialog={setOpenConfirmationDialog} deleteArticle={handleDeleteArticle}></DeleteConfirmationDialog>
-      {isLoadingArticlesList ? <CircularProgress className={classes.circularProgress} color="secondary" /> :
+      {isLoadingArticlesList ? 
+        <div className={classes.circularProgressContent}>
+          <CircularProgress color="secondary" />
+        </div> :
         (articlesList.length > 0 ?
           <div className={classes.cardList}>
             {articlesList.map((article) => {

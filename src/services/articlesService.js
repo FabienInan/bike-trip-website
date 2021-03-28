@@ -1,9 +1,10 @@
 import { DELETE, GET, POST, TIMEOUT, jsonHeaders, urlPrefix } from "./constants";
 
-export const saveArticle = (title, content, language) => {
+export const saveArticle = (title, instagramId, content, language) => {
     const data = {
         [language]: {
             title,
+            instagramId,
             content
         }
     }

@@ -1,0 +1,17 @@
+{
+  "admin": "Admin",
+  "english": "English",
+  "french": "French",
+  "home": "Home",
+  "instagramId": "Instagram Id",
+  "language": "Language",
+  "save": "Save",
+  "title": "Title",
+  "articleSuccessfullySaved": "The article has been saved successfully",
+  "articleUnSuccessfullySaved": "Due to an error, the article has not been saved",
+  "gps": "GPS",
+  "moreDetailsOnMyRoute": "More details on my route with Strava:",
+  "gpsPositionsHistory": "GPS positions history",
+  "login": "login",
+  "pwd": "password"
+}

@@ -1,10 +1,16 @@
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 import React, { Suspense } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
 
 import { Admin } from './Admin/Admin';
+import { ArticleDetail } from './ArticleDetail/ArticleDetail';
 import { Home } from './Home/Home';
+import { Login } from './Login/Login';
 import { Navigation } from './Navigation/Navigation';
+import { TwitterFeed } from './TwitterFeed/TwitterFeed';
 import clsx from 'clsx';
 import { theme } from './ui-utils/theme';
 import { useState } from 'react';
@@ -16,18 +22,16 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
+    minHeight: 'calc(100vh - 136px)',
+    width: '100%',
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(2),
-    }
   },
   contentShift: {
+    padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -37,19 +41,17 @@ const useStyles = makeStyles((theme) => ({
   drawerHeader: {
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end'
   },
   footer: {
     position: 'initial',
-    bottom: 8,
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
     fontSize: '10px',
     marginTop: '88px',
-    marginBottom: '8px'
+    marginBottom: theme.spacing(1),
   }
 }));
 
@@ -57,7 +59,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <MainContainer></MainContainer>
+        <Suspense fallback="loading">
+          <MainContainer></MainContainer>
+        </Suspense>
       </div>
     </ThemeProvider>
   );
@@ -84,6 +88,9 @@ function MainContainer() {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/admin" component={Admin} />
+                <Route path="/login" component={Login} />
+                <Route path="/article/:id" component={ArticleDetail} />
+                <Route path="/gps" component={TwitterFeed} />
               </Switch>
             </Suspense>
           </main>

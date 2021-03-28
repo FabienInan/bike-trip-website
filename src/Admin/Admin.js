@@ -8,10 +8,14 @@ import Alert from "@material-ui/lab/Alert";
 import { Editor } from 'react-draft-wysiwyg';
 import draftToMarkdown from 'draftjs-to-markdown';
 import { saveArticle } from "../services/articlesService";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
-    title: {
-        marginTop:  '16px',
+    container: {
+        margin: theme.spacing(2),
+    },
+    item: {
+        marginBottom: theme.spacing(2),
     },
     circularProgress: {
         height: '20px !important',
@@ -19,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     contentWrapper: {
         minHeight: '300px',
-        marginBottom: '16px',
+        marginBottom: theme.spacing(2),
         border: '1px solid #F1F1F1'
     },
     buttonContainer: {
@@ -33,20 +37,24 @@ const useStyles = makeStyles((theme) => ({
 export function Admin() {
 
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
-    const [language, setLanguage] = useState('fr');
+    const [articleLanguage, setArticleLanguage] = useState('fr');
     const [title, setTitle] = useState('');
+    const [instagramId, setInstagramId] = useState('');
 
     const [isSaving, setIsSaving] = useState(false);
     const [savingStatus, setSavingStatus] = useState('');
     const classes = useStyles();
 
-    const handleSelectChange = (event) => setLanguage(event.target.value);
-    const handleTextChange = (event) => setTitle(event.target.value);
+    const { t } = useTranslation();
+
+    const handleSelectChange = (event) => setArticleLanguage(event.target.value);
+    const handleTitleChange = (event) => setTitle(event.target.value);
+    const handleInstagramIdChange = (event) => setInstagramId(event.target.value);
 
     const onSave = () => {
         const content = draftToMarkdown(convertToRaw(editorState.getCurrentContent()));
         setIsSaving(true);
-        saveArticle(title, content, language)
+        saveArticle(title, instagramId, content, articleLanguage)
             .then((response) => {
                 if (response.error){
                     setSavingStatus('error');
@@ -60,27 +68,31 @@ export function Admin() {
     const handleCloseSnackBar = () => setSavingStatus('');
 
     return (
-        <div>
+        <div className={classes.container}>
             <Snackbar
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
                 open={savingStatus !== ''} autoHideDuration={6000} onClose={handleCloseSnackBar}>
                 <Alert severity={savingStatus}>
-                    {savingStatus === 'success' ? 'The article has been saved successfully' : 'Due to an error, the article has not been saved'}
+                    {savingStatus === 'success' ? t('articleSuccessfullySaved') : t('articleUnSuccessfullySaved')}
                 </Alert>
             </Snackbar>
-            <div>
-                <InputLabel>Language</InputLabel>
+            <div className={classes.item}>
+                <InputLabel>{t('language')}</InputLabel>
                 <Select
-                    value={language}
+                    value={articleLanguage}
                     onChange={handleSelectChange}
                 >
-                    <MenuItem value={'fr'}>French</MenuItem>
-                    <MenuItem value={'en'}>English</MenuItem>
+                    <MenuItem value={'fr'}>{t('french')}</MenuItem>
+                    <MenuItem value={'en'}>{t('english')}</MenuItem>
                 </Select>
             </div>
-            <div className={classes.title}>
-                <InputLabel>Title</InputLabel>
-                <TextField value={title} onChange={handleTextChange}/>
+            <div className={classes.item}>
+                <InputLabel>{t('title')}</InputLabel>
+                <TextField value={title} onChange={handleTitleChange}/>
+            </div>
+            <div className={classes.item}>
+                <InputLabel>{t('instagramId')}</InputLabel>
+                <TextField value={instagramId} onChange={handleInstagramIdChange}/>
             </div>
             <Editor
                 editorState={editorState}
@@ -89,7 +101,7 @@ export function Admin() {
                 onEditorStateChange={setEditorState}
             />
             <div className={classes.buttonContainer} >
-                <Button variant="contained" color="primary" onClick={onSave}>{isSaving ? <CircularProgress className={classes.circularProgress} color="secondary" /> : 'Save'}</Button>
+                <Button variant="contained" color="primary" onClick={onSave}>{isSaving ? <CircularProgress className={classes.circularProgress} color="secondary" /> : t('save')}</Button>
             </div>
         </div>
     );

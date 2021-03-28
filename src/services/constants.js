@@ -10,3 +10,5 @@ export const GET = 'GET';
 export const POST = 'POST';
 
 export const TIMEOUT = '5000';
+
+export const instagramId = '';
