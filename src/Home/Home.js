@@ -6,6 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 import { ArticleCard } from './ArticleCard/ArticleCard';
 import { DeleteConfirmationDialog } from './DeleteConfirmationDialog/DeleteConfirmationDialog';
 import { getIsAdmin } from '../services/loginService';
+import { getLocale } from '../services/languageService';
 import { theme } from '../ui-utils/theme';
 
 const useStyles = makeStyles(() => ({
@@ -44,7 +45,7 @@ export function Home() {
     setIsLoadingArticlesList(true);
     getArticles()
       .then(response => {
-        setArticlesList(response);
+        setArticlesList(response.filter(article => Object.keys(article.data[getLocale()]).length !== 0));
       })
       .finally(() => setIsLoadingArticlesList(false));
   }

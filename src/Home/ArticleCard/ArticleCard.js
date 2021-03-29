@@ -47,11 +47,15 @@ export function ArticleCard(props) {
   const length = article.data[locale].content && article.data[locale].content.length < 100 ? article.data[locale].content.length : 100;
   const textContentOverview = article.data[locale].content && article.data[locale].content.substr(0, length);
 
-  useEffect(() => getPostImages(article.data[locale].instagramId)
-    .then((response) => {
-      setUrlArray(response || []);
-      article.data[locale].urls = response;
-    }), []);
+  useEffect(() => {
+    if (article.data[locale].instagramId !== '') {
+      getPostImages(article.data[locale].instagramId)
+        .then((response) => {
+          setUrlArray(response || []);
+          article.data[locale].urls = response;
+        })
+    }
+  }, []);
 
   const goToArticleDetail = () => history.push(`article/${article._id}`, { data: article })
 
@@ -61,7 +65,7 @@ export function ArticleCard(props) {
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image={urlArray.length > 0  && urlArray[0]}
+            image={urlArray.length > 0 && urlArray[0]}
           />
           <CardContent className={classes.cardContent}>
             <Typography gutterBottom variant="h5" component="h5">
@@ -73,19 +77,19 @@ export function ArticleCard(props) {
           </CardContent>
         </CardActionArea>
         <CardActions className={classes.cardActions}>
-          <FacebookShareButton onClick={(e) => { e.stopPropagation();}} url={`localhost:3000/article/${article._id}`}>
-              <FacebookIcon size={32} round={true} />
+          <FacebookShareButton onClick={(e) => { e.stopPropagation(); }} url={`localhost:3000/article/${article._id}`}>
+            <FacebookIcon size={32} round={true} />
           </FacebookShareButton>
-          <WhatsappShareButton onClick={(e) => { e.stopPropagation();}} url={`localhost:3000/article/${article._id}`}>
-            <WhatsappIcon size={32} round={true}/>
+          <WhatsappShareButton onClick={(e) => { e.stopPropagation(); }} url={`localhost:3000/article/${article._id}`}>
+            <WhatsappIcon size={32} round={true} />
           </WhatsappShareButton>
-          <TwitterShareButton onClick={(e) => { e.stopPropagation();}} url={`localhost:3000/article/${article._id}`}>
-            <TwitterIcon size={32} round={true}/>
+          <TwitterShareButton onClick={(e) => { e.stopPropagation(); }} url={`localhost:3000/article/${article._id}`}>
+            <TwitterIcon size={32} round={true} />
           </TwitterShareButton>
           {isAdmin &&
-              <IconButton size="medium" color="secondary" aria-label="delete" onClick={(e) => { e.stopPropagation(); handleClickDeleteArticle(article._id)}}>
-                <DeleteIcon />
-              </IconButton>
+            <IconButton size="medium" color="secondary" aria-label="delete" onClick={(e) => { e.stopPropagation(); handleClickDeleteArticle(article._id) }}>
+              <DeleteIcon />
+            </IconButton>
           }
         </CardActions>
       </Card>

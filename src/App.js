@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
+    width: 'calc(100vw - 136px)'
   },
   drawerHeader: {
     display: 'flex',

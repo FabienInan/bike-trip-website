@@ -36,9 +36,7 @@ export function Login(props) {
     const handlePasswordChange = (event) => setPwd(event.target.value);
 
     const onLogin = () => {
-        postLogin(login,pwd)
-            .then()
-            .finally(()=> history.push('/'));
+        postLogin(login,pwd).finally(()=> history.push('/'));
     }
 
     return (

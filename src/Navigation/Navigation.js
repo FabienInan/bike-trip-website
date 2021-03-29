@@ -11,6 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import bikeImage from '../assets/bike.png';
 import clsx from 'clsx';
+import { getIsAdmin } from "../services/loginService";
 import { initReactI18next } from "react-i18next";
 import { theme } from "../ui-utils/theme";
 import { useTranslation } from "react-i18next";
@@ -138,7 +139,7 @@ export function Navigation(props) {
                 </div>
                 <List>
                     <ListItemLink to="/" primary={t('home')} icon={<HomeIcon />} onClick={(handleDrawerClose)} />
-                    <ListItemLink to="/admin" primary={t('admin')} icon={<SupervisorAccountIcon />} onClick={handleDrawerClose} />
+                    {getIsAdmin() && <ListItemLink to="/admin" primary={t('admin')} icon={<SupervisorAccountIcon />} onClick={handleDrawerClose} />}
                     <ListItemLink to="/gps" primary={t('gps')} icon={<GpsFixedIcon />} onClick={handleDrawerClose} />
                 </List>
             </Drawer>

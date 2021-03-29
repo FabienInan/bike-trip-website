@@ -7,15 +7,24 @@ const userId = '17841439623886373';
 const params = 'fields=id,media_type,media_url,permalink,children{media_url}';
 
 export const getPostImages = (id) => {
+	const cachedUrls = JSON.parse(localStorage.getItem(`InstaImage_${id}`));
+	if (cachedUrls  !== null) {
+		return Promise.resolve(cachedUrls);
+	}
 	return fetch(`${instagramPrefixUrl}/${userId}/media?${params}&access_token=${token}`)
 		.then(response => response.json())
-		.then(response => response.data.reduce(media => {
+		.then(response => response.data && response.data.reduce(media => {
 			const shortCode = media.permalink.split('/')[4];
+			let urls = [];
 			if (shortCode === id) {
 				if (media.children) {
-					return media.children.data.map(mediaData => mediaData.media_url);
+					urls = media.children.data.map(mediaData => mediaData.media_url);
 				}
-				return media.media_url;
+				else {
+					urls = media.media_url;
+				}
 			}
+			localStorage.setItem(`InstaImage_${id}`, JSON.stringify(urls));
+			return urls;
 		}));
 }
