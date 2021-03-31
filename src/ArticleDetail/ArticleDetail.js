@@ -1,6 +1,7 @@
 import { CircularProgress, Divider, Paper, Typography, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from 'react';
 
+import { Comments } from "./Comments/Comments";
 import { Fade } from "./Fade/Fade";
 import Moment from "react-moment";
 import ReactMarkdown from "react-markdown";
@@ -76,6 +77,7 @@ export function ArticleDetail(props) {
         <div className={classes.circularProgressContent}>
           <CircularProgress color="secondary" />
         </div> :
+        <div>
         <Paper elevation={3} className={classes.paper}>
             <Typography variant="h5" component="h2" className={classes.title}>
               {article.data[locale] && article.data[locale].title}
@@ -89,6 +91,8 @@ export function ArticleDetail(props) {
               <ReactMarkdown>{article.data[locale] && article.data[locale].content}</ReactMarkdown>
             </Typography>
         </Paper>
+        <Comments articleId={article.__id}></Comments>
+        </div>
       }
     </>
   );

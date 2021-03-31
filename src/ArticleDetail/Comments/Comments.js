@@ -1,6 +1,7 @@
 import { Paper, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
 
+import { getComments } from '../../services/commentsService';
 import { theme } from '../../ui-utils/theme';
 
 const useStyles = makeStyles(() => ({
@@ -13,12 +14,14 @@ const useStyles = makeStyles(() => ({
     }
   }));
 
-export function Comments() {
+export function Comments(props) {
+
+    const {articleId} = props;
 
     const classes = useStyles();
 
     useEffect(() => {
-          getComments()
+          getComments(articleId)
             .then(response => {
               });
             }, []);
