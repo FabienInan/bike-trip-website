@@ -2,7 +2,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import React, { Suspense } from 'react';
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
 
 import { Admin } from './Admin/Admin';
@@ -12,6 +12,7 @@ import { Login } from './Login/Login';
 import { Navigation } from './Navigation/Navigation';
 import { TwitterFeed } from './TwitterFeed/TwitterFeed';
 import clsx from 'clsx';
+import { getIsAdmin } from './services/loginService';
 import { theme } from './ui-utils/theme';
 import { useState } from 'react';
 
@@ -88,7 +89,7 @@ function MainContainer() {
             <Suspense fallback={<div>Chargement...</div>}>
               <Switch>
                 <Route exact path="/" component={Home} />
-                <Route path="/admin" component={Admin} />
+                <Route path="/admin" render = {() => (getIsAdmin() ?  (<Admin />) : (<Redirect to="/login" />))} />
                 <Route path="/login" component={Login} />
                 <Route path="/article/:id" component={ArticleDetail} />
                 <Route path="/gps" component={TwitterFeed} />

@@ -12,3 +12,5 @@ export const postLogin = (login, pwd)  => {
 }
 
 export const getIsAdmin = () => isAdmin;
+
+export const setIsAdmin = (value) => isAdmin = value;

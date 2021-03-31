@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
     },
     languageButton: {
         margin: theme.spacing(2),
+        [theme.breakpoints.down('xs')]: {
+            display: 'none',
+        }
     },
     drawer: {
         width: drawerWidth,

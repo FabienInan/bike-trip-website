@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
         width: 440, 
         margin:'0 auto',
         [theme.breakpoints.down('xs')]: {
-        width: 352,
+        width: 260,
         }
     }
   }));
@@ -20,8 +20,6 @@ export function Fade(props) {
     const {urlArray} = props;
     
     const settings = {
-        className: "center",
-        centerMode: true,
         dots: true,
         fade: true,
         infinite: true,

@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, InputLabel, TextField, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
+import { postLogin, setIsAdmin } from '../services/loginService';
 
-import { postLogin } from '../services/loginService';
 import { theme } from '../ui-utils/theme';
 import { useHistory } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -36,7 +36,11 @@ export function Login(props) {
     const handlePasswordChange = (event) => setPwd(event.target.value);
 
     const onLogin = () => {
-        postLogin(login,pwd).finally(()=> history.push('/'));
+        postLogin(login,pwd)
+        .then((response) => {
+            setIsAdmin(response.isAdmin);
+        })
+        .finally(()=> history.push('/'));
     }
 
     return (
