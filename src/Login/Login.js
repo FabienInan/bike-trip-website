@@ -53,7 +53,7 @@ export function Login(props) {
                 </div>
                 <div className={classes.item}>
                     <InputLabel>{t('pwd')}</InputLabel>
-                    <TextField value={pwd} onChange={handlePasswordChange}/>
+                    <TextField value={pwd} type="password" onChange={handlePasswordChange}/>
                 </div>
             </CardContent>
             <CardActions className={classes.cardActions}>

@@ -1,9 +1,10 @@
-import { GET, POST, TIMEOUT, jsonHeaders, urlPrefix } from "./constants";
+import { DELETE, GET, POST, TIMEOUT, jsonHeaders, urlPrefix } from "./constants";
 
-export const saveComment = (comment, author) => {
+export const saveComment = (comment, author, articleId) => {
     const data = {
         comment,
         author,
+        articleId,
         date: new Date()
     }
     const requestOptions = {
@@ -12,6 +13,15 @@ export const saveComment = (comment, author) => {
         body: JSON.stringify({ data })
     };
     return fetch(`${urlPrefix}/saveComment`, requestOptions, TIMEOUT).then(response => response.json());
+}
+
+export const deleteComment = (id) => {
+    const requestOptions = {
+        method: DELETE,
+        headers: jsonHeaders,
+        body: JSON.stringify({id})
+    };
+    return fetch(`${urlPrefix}/deleteComment`, requestOptions, TIMEOUT).then(response => response.json());
 }
 
 export const getComments = (articleId) => {

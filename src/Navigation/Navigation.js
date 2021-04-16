@@ -9,10 +9,10 @@ import HomeIcon from '@material-ui/icons/Home';
 import { ListItemLink } from "../ui-utils/ListItemLink";
 import MenuIcon from '@material-ui/icons/Menu';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import bikeImage from '../assets/bike.png';
 import clsx from 'clsx';
 import { getIsAdmin } from "../services/loginService";
 import { initReactI18next } from "react-i18next";
+import pineTreeImage from '../assets/pine-tree.png';
 import { theme } from "../ui-utils/theme";
 import { useTranslation } from "react-i18next";
 
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'flex-end',
     },
     bikeIcon: {
-        width: theme.spacing(6)
+        width: 28
     }
 }));
 
@@ -109,7 +109,7 @@ export function Navigation(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography className={classes.title} variant="h6">
-                        A bike trip across Canada
+                        Outdoor Adventure Stories
                     </Typography>
                     <Button className={classes.languageButton} onClick={handleClickLanguage} variant="contained" color="primary">
                         {t('french')}
@@ -123,7 +123,7 @@ export function Navigation(props) {
                         <MenuItem onClick={() => {changeLanguage('fr')}}>{t('french')}</MenuItem>
                         <MenuItem onClick={() => {changeLanguage('en')}}>{t('english')}</MenuItem>
                     </Menu>
-                    <img className={classes.bikeIcon} src={bikeImage} alt="bike logo"></img>
+                    <img className={classes.bikeIcon} src={pineTreeImage} alt="bike logo"></img>
                 </Toolbar>
             </AppBar>
             <Drawer

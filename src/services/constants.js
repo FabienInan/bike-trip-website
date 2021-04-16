@@ -1,5 +1,5 @@
 
-export const urlPrefix = 'http://localhost:4000';
+export const urlPrefix = 'https://a-bike-trip-across-canada-api.herokuapp.com';
 
 export const jsonHeaders = { 'Content-Type': 'application/json' };
 
@@ -10,5 +10,3 @@ export const GET = 'GET';
 export const POST = 'POST';
 
 export const TIMEOUT = '5000';
-
-export const instagramId = '';

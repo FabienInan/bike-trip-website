@@ -4,7 +4,7 @@ import { deleteArticle, getArticles } from '../services/articlesService';
 
 import Alert from '@material-ui/lab/Alert';
 import { ArticleCard } from './ArticleCard/ArticleCard';
-import { DeleteConfirmationDialog } from './DeleteConfirmationDialog/DeleteConfirmationDialog';
+import { DeleteConfirmationDialog } from '../ui-utils/DeleteConfirmationDialog/DeleteConfirmationDialog';
 import { getIsAdmin } from '../services/loginService';
 import { getLocale } from '../services/languageService';
 import { theme } from '../ui-utils/theme';
@@ -80,7 +80,7 @@ export function Home() {
           {deletingStatus === 'success' ? 'The article has been deleted successfully' : 'Due to an error, the article has not been deleted'}
         </Alert>
       </Snackbar>
-      <DeleteConfirmationDialog openConfirmationDialog={openConfirmationDialog} setOpenConfirmationDialog={setOpenConfirmationDialog} deleteArticle={handleDeleteArticle}></DeleteConfirmationDialog>
+      <DeleteConfirmationDialog openConfirmationDialog={openConfirmationDialog} setOpenConfirmationDialog={setOpenConfirmationDialog} deleteItem={handleDeleteArticle}></DeleteConfirmationDialog>
       {isLoadingArticlesList ? 
         <div className={classes.circularProgressContent}>
           <CircularProgress color="secondary" />

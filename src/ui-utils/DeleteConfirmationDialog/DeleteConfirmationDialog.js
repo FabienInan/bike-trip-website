@@ -4,7 +4,7 @@ import React from "react";
 
 export function DeleteConfirmationDialog(props) {
 
-  const {openConfirmationDialog, setOpenConfirmationDialog, deleteArticle} = props;
+  const {openConfirmationDialog, setOpenConfirmationDialog, deleteItem} = props;
 
   return (
     <div>
@@ -14,14 +14,14 @@ export function DeleteConfirmationDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Delete an article"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Delete an item"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure to delete this article?
+            Are you sure to delete this item?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={deleteArticle} color="primary">
+          <Button onClick={deleteItem} color="primary">
             Yes
           </Button>
           <Button onClick={() => setOpenConfirmationDialog(false)} color="primary" autoFocus>

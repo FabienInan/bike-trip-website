@@ -91,7 +91,7 @@ export function ArticleDetail(props) {
               <ReactMarkdown>{article.data[locale] && article.data[locale].content}</ReactMarkdown>
             </Typography>
         </Paper>
-        <Comments articleId={article.__id}></Comments>
+        <Comments articleId={article._id}></Comments>
         </div>
       }
     </>
