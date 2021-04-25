@@ -17,10 +17,7 @@ const useStyles = makeStyles(() => ({
   },
   card: {
     margin: theme.spacing(2),
-    width: 432,
-    [theme.breakpoints.down('xs')]: {
-      width: 'auto',
-    }
+    width: 432
   },
   cardContent: {
     height: 120,
