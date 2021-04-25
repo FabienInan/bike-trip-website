@@ -40,12 +40,13 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     title: {
-        width: '85%'
+        width: '85%',
+        margin: `${theme.spacing(1)}px 0`
     },
     languageButton: {
         margin: theme.spacing(2),
         [theme.breakpoints.down('xs')]: {
-            display: 'none',
+            margin: theme.spacing(1),
         }
     },
     drawer: {
@@ -112,7 +113,7 @@ export function Navigation(props) {
                         Outdoor Adventure Stories
                     </Typography>
                     <Button className={classes.languageButton} onClick={handleClickLanguage} variant="contained" color="primary">
-                        {t('french')}
+                        {getLocale().toUpperCase()}
                     </Button>
                     <Menu
                         anchorEl={anchorMenu}

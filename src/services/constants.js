@@ -1,6 +1,5 @@
 
-//export const urlPrefix = 'https://a-bike-trip-across-canada-api.herokuapp.com';
-export const urlPrefix = 'http://localhost:3000';
+export const urlPrefix = 'https://a-bike-trip-across-canada-api.herokuapp.com';
 export const jsonHeaders = { 'Content-Type': 'application/json' };
 
 export const DELETE = 'DELETE';
