@@ -16,6 +16,22 @@ export const saveArticle = (title, instagramId, content, language) => {
     return fetch(`${urlPrefix}/saveArticle`, requestOptions, TIMEOUT).then(response => response.json());
 }
 
+export const updateArticle = (title, instagramId, content, language, articleId) => {
+    const data = {
+        [language]: {
+            title,
+            instagramId,
+            content
+        }
+    }
+    const requestOptions = {
+        method: POST,
+        headers: jsonHeaders,
+        body: JSON.stringify({ data, articleId, date: new Date()})
+    };
+    return fetch(`${urlPrefix}/updateArticle`, requestOptions, TIMEOUT).then(response => response.json());
+}
+
 export const deleteArticle = (id) => {
     const requestOptions = {
         method: DELETE,

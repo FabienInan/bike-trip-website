@@ -5,14 +5,16 @@ import React, { Suspense } from 'react';
 import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ThemeProvider, makeStyles } from '@material-ui/core/styles';
 
-import { Admin } from './Admin/Admin';
 import { ArticleDetail } from './ArticleDetail/ArticleDetail';
+import { EditArticle } from './EditArticle/EditArticle';
 import { Home } from './Home/Home';
 import { Login } from './Login/Login';
 import { Navigation } from './Navigation/Navigation';
 import { TwitterFeed } from './TwitterFeed/TwitterFeed';
 import clsx from 'clsx';
 import { getIsAdmin } from './services/loginService';
+import instagramLogo from './assets/instagram.png';
+import stravaLogo from './assets/strava.png';
 import { theme } from './ui-utils/theme';
 import { useState } from 'react';
 
@@ -32,12 +34,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: -drawerWidth,
   },
   contentShift: {
-    padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: 0,
+    marginLeft: theme.spacing(3),
     width: 'calc(100vw - 136px)'
   },
   drawerHeader: {
@@ -54,6 +55,22 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '10px',
     marginTop: '88px',
     marginBottom: theme.spacing(1),
+  },
+  stravaLogo: {
+    width: theme.spacing(4),
+    marginTop: -theme.spacing(1),
+    marginRight: theme.spacing(1),
+    verticalAlign: 'middle'
+  },
+  instagramLogo: {
+    width: theme.spacing(4),
+    marginTop: -theme.spacing(1),
+    marginRight: theme.spacing(2),
+    verticalAlign: 'middle'
+  },
+  logos: {
+    textAlign: 'center',
+    paddingBottom: 8
   }
 }));
 
@@ -89,8 +106,8 @@ function MainContainer() {
             <Suspense fallback={<div>Chargement...</div>}>
               <Switch>
                 <Route exact path="/" component={Home} />
-                <Route path="/admin" render = {() => (getIsAdmin() ?  (<Admin />) : (<Redirect to="/login" />))} />
                 <Route path="/login" component={Login} />
+                <Route path="/admin/" component={EditArticle} />
                 <Route path="/article/:id" component={ArticleDetail} />
                 <Route path="/gps" component={TwitterFeed} />
               </Switch>
@@ -99,7 +116,17 @@ function MainContainer() {
         </Router>
       </div>
       <footer className={classes.footer}>
-        Custom made with React and Material UI by Fabien Inan - 2021
+        <div>
+          <div className={classes.logos}>
+            <a rel="noreferrer" target="_blank" href="https://www.strava.com/athletes/28004502">
+              <img className={classes.stravaLogo} src={stravaLogo} alt="strava logo"></img>
+            </a>
+            <a rel="noreferrer" target="_blank" href="https://www.instagram.com/outdoor_adventure_stories/">
+              <img className={classes.instagramLogo} src={instagramLogo} alt="instagram logo"></img>
+            </a>
+          </div>
+          <div>Made with React and Material UI by Fabien Inan - 2021</div>
+        </div>
       </footer>
     </>
   );

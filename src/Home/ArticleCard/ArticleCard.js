@@ -3,6 +3,7 @@ import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton, Wha
 import React, { useEffect, useState } from 'react';
 
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import ReactMarkdown from "react-markdown";
 import { getLocale } from "../../services/languageService";
 import { getPostImages } from "../../services/instagramService";
@@ -59,13 +60,19 @@ export function ArticleCard(props) {
 
   const goToArticleDetail = () => history.push(`article/${article._id}`, { data: article })
 
+  const goToArticleEdit = () => {
+    history.push(`admin/${article._id}`, { data: article })
+  }
+
+  const sharedUrl = `https://outdoor-adventure-stories.com//article/${article._id}`;
+
   return (
     <>
       <Card className={classes.card} onClick={() => goToArticleDetail()}>
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image={urlArray.length > 0 && urlArray[0]}
+            image={urlArray && urlArray.length > 0 && urlArray[0]}
           />
           <CardContent className={classes.cardContent}>
             <Typography gutterBottom variant="h5" component="h5">
@@ -77,19 +84,24 @@ export function ArticleCard(props) {
           </CardContent>
         </CardActionArea>
         <CardActions className={classes.cardActions}>
-          <FacebookShareButton onClick={(e) => { e.stopPropagation(); }} url={`localhost:3000/article/${article._id}`}>
+          <FacebookShareButton onClick={(e) => { e.stopPropagation(); }} url={sharedUrl}>
             <FacebookIcon size={32} round={true} />
           </FacebookShareButton>
-          <WhatsappShareButton onClick={(e) => { e.stopPropagation(); }} url={`localhost:3000/article/${article._id}`}>
+          <WhatsappShareButton onClick={(e) => { e.stopPropagation(); }} url={sharedUrl}>
             <WhatsappIcon size={32} round={true} />
           </WhatsappShareButton>
-          <TwitterShareButton onClick={(e) => { e.stopPropagation(); }} url={`localhost:3000/article/${article._id}`}>
+          <TwitterShareButton onClick={(e) => { e.stopPropagation(); }} url={sharedUrl}>
             <TwitterIcon size={32} round={true} />
           </TwitterShareButton>
           {isAdmin &&
+          <>
+            <IconButton size="medium" color="secondary" aria-label="delete" onClick={(e) => { e.stopPropagation(); goToArticleEdit() }}>
+              <EditIcon />
+            </IconButton>
             <IconButton size="medium" color="secondary" aria-label="delete" onClick={(e) => { e.stopPropagation(); handleClickDeleteArticle(article._id) }}>
               <DeleteIcon />
             </IconButton>
+          </>
           }
         </CardActions>
       </Card>

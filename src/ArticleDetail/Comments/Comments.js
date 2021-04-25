@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
     marginBottom: theme.spacing(1),
   },
   commentAuthor: {
-    fontSize: '13px',
+    fontSize: '14px',
     fontWeight: 'bold',
     marginLeft: theme.spacing(2),
     color: theme.palette.secondary.main
@@ -55,7 +55,6 @@ const useStyles = makeStyles(() => ({
   },
   newCommentAuthor: {
     margin: `0 ${theme.spacing(2)}px`,
-    width: 320,
   },
   newCommentButton: {
     width: 160,

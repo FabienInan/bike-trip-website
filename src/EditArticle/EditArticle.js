@@ -1,13 +1,14 @@
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 import { Button, CircularProgress, InputLabel, MenuItem, Select, Snackbar, TextField, makeStyles } from "@material-ui/core";
-import { EditorState, convertToRaw } from 'draft-js';
-import React, { useState } from 'react';
+import { ContentState, EditorState, convertToRaw } from 'draft-js';
+import React, { useEffect, useState } from 'react';
+import { saveArticle, updateArticle } from "../services/articlesService";
 
 import Alert from "@material-ui/lab/Alert";
 import { Editor } from 'react-draft-wysiwyg';
 import draftToMarkdown from 'draftjs-to-markdown';
-import { saveArticle } from "../services/articlesService";
+import { getLocale } from "../services/languageService";
 import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export function Admin() {
+export function EditArticle(props) {
 
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [articleLanguage, setArticleLanguage] = useState('fr');
@@ -43,6 +44,19 @@ export function Admin() {
 
     const [isSaving, setIsSaving] = useState(false);
     const [savingStatus, setSavingStatus] = useState('');
+
+    useEffect(() => {
+        if(props.location && props.location.state && props.location.state.data._id) {
+            const locale = getLocale();
+            const articleData = props.location.state.data && props.location.state.data.data && props.location.state.data.data[locale];
+            const contentState = EditorState.createWithContent(ContentState.createFromText(articleData.content));
+            setEditorState(contentState);
+            setArticleLanguage(locale);
+            setTitle(articleData.title);
+            setInstagramId(articleData.instagramId);
+        }
+    }, [])
+
     const classes = useStyles();
 
     const { t } = useTranslation();
@@ -51,12 +65,15 @@ export function Admin() {
     const handleTitleChange = (event) => setTitle(event.target.value);
     const handleInstagramIdChange = (event) => setInstagramId(event.target.value);
 
+    const saveMethod = props.location.state && props.location.state.data._id ? updateArticle : saveArticle;
+
     const onSave = () => {
+        const articleId = props.location.state && props.location.state.data._id;
         const content = draftToMarkdown(convertToRaw(editorState.getCurrentContent()));
         setIsSaving(true);
-        saveArticle(title, instagramId, content, articleLanguage)
+        saveMethod(title, instagramId, content, articleLanguage, articleId)
             .then((response) => {
-                if (response.error){
+                if (response.error) {
                     setSavingStatus('error');
                 }
                 else setSavingStatus('success');
@@ -88,11 +105,11 @@ export function Admin() {
             </div>
             <div className={classes.item}>
                 <InputLabel>{t('title')}</InputLabel>
-                <TextField value={title} onChange={handleTitleChange}/>
+                <TextField value={title} onChange={handleTitleChange} />
             </div>
             <div className={classes.item}>
                 <InputLabel>{t('instagramId')}</InputLabel>
-                <TextField value={instagramId} onChange={handleInstagramIdChange}/>
+                <TextField value={instagramId} onChange={handleInstagramIdChange} />
             </div>
             <Editor
                 editorState={editorState}

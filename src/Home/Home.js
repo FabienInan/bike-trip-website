@@ -11,8 +11,7 @@ import { theme } from '../ui-utils/theme';
 
 const useStyles = makeStyles(() => ({
   cardList: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   circularProgressContent: {
     display: 'flex',

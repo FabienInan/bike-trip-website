@@ -5,10 +5,10 @@ import { theme } from '../../ui-utils/theme';
 
 const useStyles = makeStyles(() => ({
     image: {
-        width: 440, 
+        width: '40%', 
         margin:'0 auto',
         [theme.breakpoints.down('xs')]: {
-        width: 260,
+        width: '80%',
         }
     }
   }));

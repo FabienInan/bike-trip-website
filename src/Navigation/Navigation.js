@@ -40,10 +40,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     title: {
-        width: '85%',
-        [theme.breakpoints.down('xs')]: {
-            width: '60%',
-        }
+        width: '85%'
     },
     languageButton: {
         margin: theme.spacing(2),
@@ -63,7 +60,10 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'flex-end',
     },
     bikeIcon: {
-        width: 28
+        width: 28,
+        [theme.breakpoints.down('xs')]: {
+            width: 20,
+        }
     }
 }));
 
