@@ -39,7 +39,7 @@ export function TwitterFeed() {
                     <Typography className={classes.twitterFeedTitle} variant="h5">
                         {t('gpsPositionsHistory')}
                     </Typography>
-                    <div className="selfCenter" style={{ maxWidth: 360, height: 415, marginTop: theme.spacing(2), tweetLimit: 3 }}>
+                    <div className="selfCenter" style={{ maxWidth: 360, height: 420, marginTop: theme.spacing(2), tweetLimit: 3 }}>
                         <TwitterTimelineEmbed
                             sourceType="profile"
                             screenName="FabienInan"
