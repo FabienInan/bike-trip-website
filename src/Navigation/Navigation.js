@@ -14,6 +14,7 @@ import { getIsAdmin } from "../services/loginService";
 import { initReactI18next } from "react-i18next";
 import pineTreeImage from '../assets/pine-tree.png';
 import { theme } from "../ui-utils/theme";
+import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 
 const drawerWidth = 120;
@@ -70,6 +71,8 @@ const useStyles = makeStyles((theme) => ({
 
 export function Navigation(props) {
 
+    const history = useHistory();
+
     const classes = useStyles();
 
     const { open, setOpen } = props;
@@ -94,6 +97,7 @@ export function Navigation(props) {
         setLanguage(language); 
         setLocale(language);
         handleCloseMenu();
+        history.push('/')
         window.location.reload(true);
     }
 
