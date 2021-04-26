@@ -46,7 +46,7 @@ export function Home() {
     setIsLoadingArticlesList(true);
     getArticles()
       .then(response => {
-        setArticlesList(response.filter(article => Object.keys(article.data[getLocale()]).length !== 0));
+        setArticlesList(response.filter(article => article.data[getLocale()] && Object.keys(article.data[getLocale()]).length !== 0));
       })
       .finally(() => setIsLoadingArticlesList(false));
   }
